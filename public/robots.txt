@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://VERTEX CONSULTING LTD-dev.vercel.app/
+
+# Sitemaps
+Sitemap: https://VERTEX CONSULTING LTD-dev.vercel.app/sitemap.xml
