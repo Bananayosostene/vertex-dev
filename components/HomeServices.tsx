@@ -143,31 +143,40 @@ export default function HomeServices() {
                 : "opacity-0 translate-x-[-50px]"
             }`}
           >
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">
-              Available Services
-            </h3>
-            <div className="grid grid-cols-1 gap-4">
-              {services.map((service, index) => (
-                <div
-                  key={`service-${index}-${animationKey}`}
-                  className={`group flex items-center bg-gray-50 hover:bg-[#F17105]/5 p-4 rounded-lg border border-gray-200 hover:border-[#F17105]/30 transition-all duration-300 hover:shadow-md hover:scale-[1.02] ${
-                    isVisible
-                      ? "animate-fadeInUp"
-                      : "opacity-0 translate-y-[30px]"
-                  }`}
-                  style={{
-                    animationDelay: `${800 + index * 50}ms`,
-                    transitionDelay: isVisible
-                      ? `${800 + index * 50}ms`
-                      : "0ms",
-                  }}
-                >
-                  <CircleCheckBig className="w-5 h-5 text-[#0066FF] mr-3 flex-shrink-0" />
-                  <h4 className="text-gray-800 font-medium text-base group-hover:text-[#F17105] transition-colors duration-300">
-                    {service}
-                  </h4>
-                </div>
-              ))}
+            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 h-full flex flex-col">
+              <h3 className="text-xl font-semibold text-gray-800 mb-6">
+                Available Services
+              </h3>
+
+              {/* Services Grid - Flex Grow */}
+              <div className="grid grid-cols-1 gap-4 flex-grow mb-6">
+                {services.map((service, index) => (
+                  <div className="flex items-center gap-3 group" key={index}>
+                    <CircleCheckBig className="w-5 h-5 text-[#0066FF] flex-shrink-0" />
+                    <h4 className="text-gray-800 font-medium text-sm group-hover:text-[#F17105] transition-colors duration-300">
+                      {service}
+                    </h4>
+                    <div className="w-2 h-2 bg-[#F17105] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Button at Bottom */}
+              <div
+                key={`button-${animationKey}`}
+                className={`text-center transition-all duration-1000 mt-auto ${
+                  isVisible
+                    ? "animate-fadeInUp animation-delay-1400"
+                    : "opacity-0 translate-y-[30px]"
+                }`}
+              >
+                <Link href="/services">
+                  <Button className="bg-[#F17105] hover:bg-[#F17105]/90 text-white px-8 py-3 rounded-lg font-semibold text-base hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    View All Services Details
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -340,22 +349,6 @@ export default function HomeServices() {
           </div>
         </div>
 
-        {/* View More Button */}
-        <div
-          key={`button-${animationKey}`}
-          className={`text-center transition-all duration-1000 ${
-            isVisible
-              ? "animate-fadeInUp animation-delay-1400"
-              : "opacity-0 translate-y-[30px]"
-          }`}
-        >
-          <Link href="/services">
-            <Button className="bg-[#0066FF] hover:bg-[#0066FF]/90 text-white px-8 py-3 rounded-lg font-semibold text-base hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-              View All Services Details
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
-        </div>
       </div>
     </section>
   );
