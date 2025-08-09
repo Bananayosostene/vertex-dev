@@ -60,7 +60,7 @@ export default function Header() {
           <div className="container mx-auto flex flex-wrap items-center justify-center md:justify-between">
             <div className="hidden md:flex items-center text-[12px] space-x-6 animate-fadeInLeft">
               <span>24/7 Professional Consulting Services</span>
-              <span>irasteve01@gmail.com</span>
+              <span>vertexconsultancy84@gmail.com</span>
             </div>
             <div className="flex items-center space-x-4 animate-fadeInRight">
               <div className="flex space-x-4">
