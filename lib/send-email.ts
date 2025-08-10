@@ -159,7 +159,7 @@ export async function sendAdminRegistrationNotification(
 ) {
   try {
     const transporter = createTransporter();
-    const adminEmail = "sbananayo98@gmail.com"; 
+    const adminEmail = "vertexconsultancy84@gmail.com";
 
     const adminNotificationContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
