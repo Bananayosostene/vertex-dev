@@ -46,7 +46,7 @@ export default function LoginForm() {
               id="password"
               name="password"
               type="password"
-              placeholder="adminpassword123"
+              placeholder="Enter password"
               required
               disabled={isPending}
               className="w-full h-11 px-4 border text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent transition-all duration-200"

@@ -1,5 +1,4 @@
 "use client";
-import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,23 +12,30 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import { sendContactEmail } from "@/lib/send-email";
+import { useActionState } from "react";
+import { createContact } from "@/app/actions/contactActions";
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
   const [isVisible, setIsVisible] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null;
-    message: string;
-  }>({ type: null, message: "" });
   const [animationKey, setAnimationKey] = useState(0);
   const sectionRef = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null); // Add form ref
+
+  const initialState = {
+    success: false,
+    message: "",
+    errors: {
+      name: undefined,
+      email: undefined,
+      phone: undefined,
+      message: undefined,
+      status: undefined,
+    },
+  };
+  const [state, formAction, isPending] = useActionState(
+    createContact,
+    initialState
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,46 +64,12 @@ export default function ContactSection() {
     };
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus({ type: null, message: "" });
-
-    try {
-      const result = await sendContactEmail(formData);
-      if (result.success) {
-        setSubmitStatus({
-          type: "success",
-          message: result.message,
-        });
-        setFormData({ name: "", email: "", phone: "", message: "" });
-      } else {
-        setSubmitStatus({
-          type: "error",
-          message: result.message,
-        });
-      }
-    } catch (error) {
-      setSubmitStatus({
-        type: "error",
-        message: "An unexpected error occurred. Please try again.",
-      });
-    } finally {
-      setIsSubmitting(false);
-      setTimeout(() => {
-        setSubmitStatus({ type: null, message: "" });
-      }, 5000);
+  // Reset form fields on successful submission
+  useEffect(() => {
+    if (state.success) {
+      formRef.current?.reset();
     }
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  }, [state.success]);
 
   return (
     <section
@@ -215,26 +187,26 @@ export default function ContactSection() {
             }`}
           >
             <div className="h-[350px] bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form ref={formRef} action={formAction} className="space-y-4">
                 {[
                   {
                     name: "name",
                     type: "text",
-                    placeholder: "Your Name",
+                    placeholder: "Your Name *",
                     required: true,
                     delay: 1000,
                   },
                   {
                     name: "email",
                     type: "email",
-                    placeholder: "Your Email",
+                    placeholder: "Your Email *",
                     required: true,
                     delay: 1100,
                   },
                   {
                     name: "phone",
                     type: "tel",
-                    placeholder: "Your Phone",
+                    placeholder: "Your Phone (Optional)",
                     required: false,
                     delay: 1200,
                   },
@@ -256,11 +228,20 @@ export default function ContactSection() {
                       type={field.type}
                       placeholder={field.placeholder}
                       required={field.required}
-                      value={formData[field.name as keyof typeof formData]}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
+                      disabled={isPending}
                       className="w-full h-10 px-4 border text-[12px] placeholder:text-[12px] border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent hover:border-[#F17105]/50 transition-all duration-300 disabled:opacity-50"
                     />
+                    {state.errors?.[
+                      field.name as keyof typeof state.errors
+                    ] && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {
+                          state.errors[
+                            field.name as keyof typeof state.errors
+                          ]?.[0]
+                        }
+                      </p>
+                    )}
                   </div>
                 ))}
                 <div
@@ -273,30 +254,33 @@ export default function ContactSection() {
                 >
                   <Textarea
                     name="message"
-                    placeholder="Your Message"
+                    placeholder="Your Message *"
                     required
                     rows={3}
-                    value={formData.message}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
+                    disabled={isPending}
                     className="w-full px-4 py-2 text-[12px] placeholder:text-[12px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent resize-none hover:border-[#F17105]/50 transition-all duration-300 disabled:opacity-50"
                   />
+                  {state.errors?.message && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {state.errors.message[0]}
+                    </p>
+                  )}
                 </div>
                 {/* Status Message */}
-                {submitStatus.type && (
+                {state.message && (
                   <div
                     className={`flex items-center space-x-2 p-3 rounded-lg text-sm ${
-                      submitStatus.type === "success"
+                      state.success
                         ? "bg-green-50 text-green-700 border border-green-200"
                         : "bg-red-50 text-red-700 border border-red-200"
                     }`}
                   >
-                    {submitStatus.type === "success" ? (
+                    {state.success ? (
                       <CheckCircle className="w-4 h-4" />
                     ) : (
                       <AlertCircle className="w-4 h-4" />
                     )}
-                    <span>{submitStatus.message}</span>
+                    <span>{state.message}</span>
                   </div>
                 )}
                 <div
@@ -309,10 +293,10 @@ export default function ContactSection() {
                 >
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isPending}
                     className="w-[6rem] bg-[#F17105] hover:bg-[#F17105]/90 text-white text-[12px] font-semibold rounded-[5px] hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
-                    {isSubmitting ? (
+                    {isPending ? (
                       <div className="flex items-center space-x-2">
                         <Loader2 className="w-3 h-3 animate-spin" />
                         <span>Sending...</span>

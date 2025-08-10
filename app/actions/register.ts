@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { sendAdminRegistrationNotification } from "@/lib/send-email";
 
 // Define schema for validation
 const registrationSchema = z.object({
@@ -15,8 +16,6 @@ const registrationSchema = z.object({
     .array(z.string())
     .min(1, "At least one service must be selected."),
 });
-
-
 
 export async function registerInterest(prevState: any, formData: FormData) {
   const data = {
@@ -50,6 +49,7 @@ export async function registerInterest(prevState: any, formData: FormData) {
         selectedServices: parsed.data.selectedServices,
       },
     });
+      await sendAdminRegistrationNotification(parsed.data);
     return {
       success: true,
       message: "Registration submitted successfully! We'll contact you soon.",

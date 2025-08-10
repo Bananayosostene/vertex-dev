@@ -1,21 +1,19 @@
 "use server";
+
+import { prisma } from "@/lib/prisma";
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
 import nodemailer from "nodemailer";
+import { ContactStatus } from "@prisma/client"; // Import ContactStatus enum
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-
-interface RegistrationFormData {
-  companyName: string;
-  email: string;
-  tinNumber: string;
-  phoneNumber: string;
-  location: string;
-  selectedServices: string[];
-}
+// Define schema for validation
+const contactSchema = z.object({
+  name: z.string().min(1, "Name is required."),
+  email: z.string().email("Invalid email address."),
+  phone: z.string().optional(), // Phone is optional
+  message: z.string().min(1, "Message is required."),
+  status: z.nativeEnum(ContactStatus).optional(), // Status is optional for creation, defaults to 'New'
+});
 
 // Re-use the transporter setup
 const createTransporter = () => {
@@ -28,11 +26,40 @@ const createTransporter = () => {
   });
 };
 
-export async function sendContactEmail(formData: ContactFormData) {
-  try {
-    const transporter = createTransporter();
+export async function createContact(prevState: any, formData: FormData) {
+  const data = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    phone: formData.get("phone") || undefined, // Ensure empty string becomes undefined for optional field
+    message: formData.get("message"),
+  };
 
-    // Email content for the company
+  // Validate data
+  const parsed = contactSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      message: "Validation failed. Please check your inputs.",
+      errors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    const newContact = await prisma.contact.create({
+      data: {
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone,
+        message: parsed.data.message,
+        status: ContactStatus.New, // Always set to New on creation
+      },
+    });
+
+    // Send email notification to company (admin)
+    const transporter = createTransporter();
+    const adminEmail = "vertexconsultancy84@gmail.com"; // The admin's email address
+
     const companyEmailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
         <div style="text-align: center; margin-bottom: 30px;">
@@ -45,16 +72,16 @@ export async function sendContactEmail(formData: ContactFormData) {
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 8px 0; font-weight: bold; color: #555; width: 120px;">Name:</td>
-              <td style="padding: 8px 0; color: #333;">${formData.name}</td>
+              <td style="padding: 8px 0; color: #333;">${parsed.data.name}</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; font-weight: bold; color: #555;">Email:</td>
-              <td style="padding: 8px 0; color: #333;">${formData.email}</td>
+              <td style="padding: 8px 0; color: #333;">${parsed.data.email}</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; font-weight: bold; color: #555;">Phone:</td>
               <td style="padding: 8px 0; color: #333;">${
-                formData.phone || "Not provided"
+                parsed.data.phone || "Not provided"
               }</td>
             </tr>
           </table>
@@ -63,7 +90,7 @@ export async function sendContactEmail(formData: ContactFormData) {
         <div style="background-color: #fff; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
           <h3 style="color: #333; margin-top: 0;">Message:</h3>
           <p style="color: #555; line-height: 1.6; white-space: pre-wrap;">${
-            formData.message
+            parsed.data.message
           }</p>
         </div>
         
@@ -87,7 +114,7 @@ export async function sendContactEmail(formData: ContactFormData) {
         </div>
         
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-          <p style="color: #333; margin: 0 0 15px 0;">Dear ${formData.name},</p>
+          <p style="color: #333; margin: 0 0 15px 0;">Dear ${parsed.data.name},</p>
           <p style="color: #555; line-height: 1.6; margin: 0 0 15px 0;">
             Thank you for reaching out to VERTEX CONSULTING LTD. We have received your message and our team will review it shortly.
           </p>
@@ -98,7 +125,7 @@ export async function sendContactEmail(formData: ContactFormData) {
         
         <div style="background-color: #fff; padding: 20px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 20px;">
           <h3 style="color: #333; margin-top: 0;">Your Message Summary:</h3>
-          <p style="color: #555; line-height: 1.6; white-space: pre-wrap;">${formData.message}</p>
+          <p style="color: #555; line-height: 1.6; white-space: pre-wrap;">${parsed.data.message}</p>
         </div>
         
         <div style="text-align: center; margin-bottom: 20px;">
@@ -126,26 +153,25 @@ export async function sendContactEmail(formData: ContactFormData) {
       </div>
     `;
 
-    // Send email to company
     await transporter.sendMail({
       from: `"VERTEX CONSULTING LTD Contact Form" <${process.env.NODEMAILER_USER}>`,
-      to: "vertexconsultancy84@gmail.com", // Admin email
-      subject: `New Contact Message from ${formData.name}`,
+      to: adminEmail,
+      subject: `New Contact Message from ${parsed.data.name}`,
       html: companyEmailContent,
-      replyTo: formData.email,
+      replyTo: parsed.data.email,
     });
 
-    // Send auto-reply to visitor
     await transporter.sendMail({
       from: `"VERTEX CONSULTING LTD" <${process.env.NODEMAILER_USER}>`,
-      to: formData.email,
+      to: parsed.data.email,
       subject: "Thank you for contacting VERTEX CONSULTING LTD",
       html: autoReplyContent,
     });
 
+    revalidatePath("/dashboard/contacts"); // Revalidate the contacts dashboard page
     return { success: true, message: "Message sent successfully!" };
-  } catch (error) {
-    console.error("Email sending error:", error);
+  } catch (error: any) {
+    console.error("Database or Email sending error:", error);
     return {
       success: false,
       message:
@@ -154,89 +180,84 @@ export async function sendContactEmail(formData: ContactFormData) {
   }
 }
 
-export async function sendAdminRegistrationNotification(
-  formData: RegistrationFormData
-) {
+export async function getContacts() {
   try {
-    const transporter = createTransporter();
-    const adminEmail = "sbananayo98@gmail.com"; 
-
-    const adminNotificationContent = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #0066FF; margin: 0;">New Service Registration Received!</h1>
-          <p style="color: #666; margin: 5px 0;">VERTEX CONSULTING LTD - Admin Notification</p>
-        </div>
-        
-        <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-          <h2 style="color: #333; margin-top: 0;">Registration Details</h2>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #555; width: 150px;">Company/User Name:</td>
-              <td style="padding: 8px 0; color: #333;">${
-                formData.companyName
-              }</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #555;">Email:</td>
-              <td style="padding: 8px 0; color: #333;">${formData.email}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #555;">TIN Number:</td>
-              <td style="padding: 8px 0; color: #333;">${
-                formData.tinNumber
-              }</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #555;">Phone Number:</td>
-              <td style="padding: 8px 0; color: #333;">${
-                formData.phoneNumber
-              }</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #555;">Location:</td>
-              <td style="padding: 8px 0; color: #333;">${formData.location}</td>
-            </tr>
-          </table>
-        </div>
-        
-        <div style="background-color: #fff; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
-          <h3 style="color: #333; margin-top: 0;">Requested Services:</h3>
-          <ul style="color: #555; line-height: 1.8; margin: 0; padding-left: 20px;">
-            ${formData.selectedServices
-              .map((service) => `<li>${service}</li>`)
-              .join("")}
-          </ul>
-        </div>
-        
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-          <p style="color: #888; font-size: 12px; margin: 0;">
-            This notification was sent from the VERTEX CONSULTING LTD website.
-          </p>
-          <p style="color: #888; font-size: 12px; margin: 5px 0 0 0;">
-            Received on: ${new Date().toLocaleString()}
-          </p>
-        </div>
-      </div>
-    `;
-
-    await transporter.sendMail({
-      from: `"VERTEX CONSULTING LTD Notifications" <${process.env.NODEMAILER_USER}>`,
-      to: adminEmail,
-      subject: `New Service Registration from ${formData.companyName}`,
-      html: adminNotificationContent,
-      replyTo: formData.email, // Reply to the registrant's email
+    const contacts = await prisma.contact.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
     });
-
-    console.log(
-      "Admin notification email sent successfully for new registration."
-    );
-    return { success: true };
+    return { success: true, data: contacts };
   } catch (error) {
-    console.error(
-      "Error sending admin registration notification email:",
-      error
-    );
-    return { success: false };
+    console.error("Failed to fetch contacts:", error);
+    return { success: false, message: "Failed to fetch contacts." };
+  }
+}
+
+export async function getContactById(id: string) {
+  try {
+    const contact = await prisma.contact.findUnique({
+      where: { id },
+    });
+    if (!contact) {
+      return { success: false, message: "Contact not found." };
+    }
+    return { success: true, data: contact };
+  } catch (error) {
+    console.error(`Failed to fetch contact with ID ${id}:`, error);
+    return { success: false, message: "Failed to fetch contact." };
+  }
+}
+
+export async function deleteContact(id: string) {
+  try {
+    await prisma.contact.delete({
+      where: { id },
+    });
+    revalidatePath("/dashboard/contacts"); // Revalidate the contacts dashboard page
+    return { success: true, message: "Contact deleted successfully." };
+  } catch (error) {
+    console.error(`Failed to delete contact with ID ${id}:`, error);
+    return { success: false, message: "Failed to delete contact." };
+  }
+}
+
+export async function updateContact(prevState: any, formData: FormData) {
+  const id = formData.get("id") as string;
+
+  const data = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    phone: formData.get("phone") || undefined,
+    message: formData.get("message"),
+    status: formData.get("status"),
+  };
+
+  const parsed = contactSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      message: "Validation failed. Please check your inputs.",
+      errors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    await prisma.contact.update({
+      where: { id },
+      data: {
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone,
+        message: parsed.data.message,
+        status: parsed.data.status, // Update status as well
+      },
+    });
+    revalidatePath("/dashboard/contacts"); // Revalidate the contacts dashboard page
+    return { success: true, message: "Contact updated successfully!" };
+  } catch (error: any) {
+    console.error(`Failed to update contact with ID ${id}:`, error);
+    return { success: false, message: "Failed to update contact." };
   }
 }

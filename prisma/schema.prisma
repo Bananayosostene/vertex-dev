@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ContactStatus {
+  New
+  InProgress
+  Resolved
+}
 
 model Registration {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -35,3 +40,16 @@ model Admin {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+model Contact {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  phone     String?
+  message   String
+  status    ContactStatus @default(New)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+

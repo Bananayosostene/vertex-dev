@@ -45,10 +45,11 @@ export default async function DashboardPage() {
         <div className="flex justify-between items-center mb-8">
           {" "}
           <h1 className="text-3xl font-bold text-gray-800">
-            Registrations Dashboard
+            Dashboard
           </h1>
           <LogoutButton />
         </div>
+        <p>Regstration Table</p>
         <RegistrationsTable
           initialRegistrations={registrations || []}
           allServices={allServices}
