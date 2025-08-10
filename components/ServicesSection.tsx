@@ -16,7 +16,7 @@ const services = [
     title: "Business Strategy Development",
     description:
       "Comprehensive strategic planning and business development services for long-term success.",
-    image: "/images/service2.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Strategic",
     comments: "Planning",
   },
@@ -25,7 +25,7 @@ const services = [
     title: "Chemical Manufacturing",
     description:
       "Professional consulting for basic chemicals manufacturing and production optimization.",
-    image: "/images/service3.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Quality",
     comments: "Assured",
   },
@@ -34,7 +34,7 @@ const services = [
     title: "Fertilizers & Nitrogen Compounds",
     description:
       "Specialized consulting for fertilizer production and nitrogen compound manufacturing.",
-    image: "/images/service4.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Agro",
     comments: "Solutions",
   },
@@ -43,7 +43,7 @@ const services = [
     title: "Pesticides & Agrochemicals",
     description:
       "Expert guidance in pesticide and agrochemical product development and manufacturing.",
-    image: "/images/service5.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Safe",
     comments: "Products",
   },
@@ -52,7 +52,7 @@ const services = [
     title: "Paints & Coatings",
     description:
       "Consulting services for paint, varnish, and coating manufacturing processes.",
-    image: "/images/service6.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Quality",
     comments: "Coatings",
   },
@@ -61,7 +61,7 @@ const services = [
     title: "Soap & Detergents",
     description:
       "Professional consulting for soap, detergent, and cleaning product manufacturing.",
-    image: "/images/service7.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Clean",
     comments: "Solutions",
   },
@@ -70,7 +70,7 @@ const services = [
     title: "Global Trading Services",
     description:
       "International trade consulting and global market entry strategies for businesses.",
-    image: "/images/service8.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Global",
     comments: "Reach",
   },
@@ -79,7 +79,7 @@ const services = [
     title: "Wholesale Trade",
     description:
       "Non-specialized wholesale trade consulting and distribution network optimization.",
-    image: "/images/service9.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Trade",
     comments: "Networks",
   },
@@ -88,7 +88,7 @@ const services = [
     title: "Airtime Service Retail",
     description:
       "Retail service consulting for airtime and telecommunications service distribution.",
-    image: "/images/service10.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Telecom",
     comments: "Services",
   },
@@ -97,7 +97,7 @@ const services = [
     title: "Cargo Handling",
     description:
       "Professional logistics and cargo handling consulting for efficient operations.",
-    image: "/images/service11.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Logistics",
     comments: "Solutions",
   },
@@ -106,7 +106,7 @@ const services = [
     title: "Technical Testing & Analysis",
     description:
       "Comprehensive technical testing and analysis services for quality assurance.",
-    image: "/images/service12.png?height=300&width=400",
+    image: "/images/vertex-conslting.jpg?height=300&width=400",
     date: "Quality",
     comments: "Testing",
   },

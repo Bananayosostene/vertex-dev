@@ -65,7 +65,6 @@ export async function login(prevState: any, formData: FormData) {
       return { success: false, message: "Invalid credentials." };
     }
 
-    // Create session by setting the admin's ID as the session token
     const cookieStore = await cookies();
     cookieStore.set("session_token", admin.id, {
       httpOnly: true,
@@ -74,7 +73,7 @@ export async function login(prevState: any, formData: FormData) {
       path: "/",
     });
 
-    redirect("/dashboard"); // Redirect to dashboard on successful login
+    redirect("/dashboard");
   } catch (error) {
     console.error("Login error:", error);
     return {
