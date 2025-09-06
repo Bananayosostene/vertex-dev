@@ -14,7 +14,9 @@ import { useActionState } from "react";
 import { registerInterest } from "@/app/actions/register"; // Import the new Server Action
 
 const services = [
-  "Management Consultancy",
+  "Accounting ",
+  "Auditing",
+  "Project Management",
   "Business Strategy Development",
   "Chemical Manufacturing",
   "Fertilizers & Nitrogen Compounds",
@@ -26,6 +28,9 @@ const services = [
   "Airtime Service Retail",
   "Cargo Handling",
   "Technical Testing & Analysis",
+  "Tax consultation",
+  "Product Pricing Strategy",
+  "Customer Management",
 ];
 
 export default function HomeServices() {
