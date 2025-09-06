@@ -9,7 +9,7 @@ export default function ServicesPage() {
       <div
         className="relative min-h-[60vh] bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/virtual-8323354_1280.png/?height=800&width=1200')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/footer-bg.jpg/?height=800&width=1200')`,
         }}
       >
         <Header />

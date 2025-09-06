@@ -17,7 +17,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (state.success) {
-      formRef.current?.reset(); 
+      formRef.current?.reset();
     }
   }, [state.success]);
 
@@ -37,7 +37,7 @@ export default function LoginForm() {
               placeholder="admin@vertexconsulting.com"
               required
               disabled={isPending}
-              className="w-full h-11 px-4 border text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent transition-all duration-200"
+              className="w-full h-11 px-4 border text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent transition-all duration-100"
             />
           </div>
           <div>
@@ -49,7 +49,7 @@ export default function LoginForm() {
               placeholder="Enter password"
               required
               disabled={isPending}
-              className="w-full h-11 px-4 border text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent transition-all duration-200"
+              className="w-full h-11 px-4 border text-base border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent transition-all duration-100"
             />
           </div>
 
@@ -73,7 +73,7 @@ export default function LoginForm() {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full bg-[#F17105] hover:bg-[#F17105]/90 text-white font-semibold rounded-lg py-3 text-lg hover:scale-[1.01] transition-all duration-300 shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="w-full bg-[#F17105] hover:bg-[#F17105]/90 text-white font-semibold rounded-lg py-3 text-lg hover:scale-[1.01] transition-all duration-100 shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {isPending ? (
               <div className="flex items-center space-x-2">

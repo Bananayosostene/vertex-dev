@@ -10,67 +10,44 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
-const teamMembers = [
+const teamworkers = [
   {
     id: 1,
     name: "IRADUKUNDA Stiven",
     position: "Chief Executive Officer",
-    image: "/images/member1.jpg?height=400&width=300",
+    image: "/images/worker1.jpg?height=400&width=300",
   },
   {
     id: 2,
-    name: "UZABAKIRIHO Eric",
+    name: "GUSENGA Benjamin",
     position: "Project Manager",
-    image: "/images/member2.jpg?height=400&width=300",
+    image: "/images/worker2.jpg?height=400&width=300",
   },
   {
     id: 3,
-    name: "HAHIRWABASENGA Sosthene",
-    position: "Business Consultant",
-    image: "/images/member3.jpg?height=400&width=300",
+    name: "AKIMANIMPAYE Rachel",
+    position: "Secretary",
+    image: "/images/worker3.jpg?height=400&width=300",
   },
   {
     id: 4,
-    name: "UWIMANA Marie Claire",
-    position: "Operations Manager",
-    image: "/images/member4.jpg?height=400&width=300",
+    name: "MASENGESHO Bertin",
+    position: "Accountant",
+    image: "/images/worker4.jpg?height=400&width=300",
   },
   {
     id: 5,
-    name: "NIYONZIMA Jean Baptiste",
-    position: "Business Development Director",
-    image: "/images/member5.jpg?height=400&width=300",
+    name: "NIRAGIRE Magnifique",
+    position: "IT Specialist",
+    image: "/images/worker5.jpg?height=400&width=300",
   },
   {
     id: 6,
-    name: "KAYITESI Alice",
-    position: "Financial Consultant",
-    image: "/images/member6.jpg?height=400&width=300",
+    name: "Sostene BANANAYO",
+    position: "Developer",
+    image: "/images/profile.jpg?height=400&width=300",
   },
-  {
-    id: 7,
-    name: "NKURUNZIZA Paul",
-    position: "Technical Analyst",
-    image: "/images/member7.jpg?height=400&width=300",
-  },
-  {
-    id: 8,
-    name: "MUKAMANA Grace",
-    position: "Data Analyst",
-    image: "/images/member8.jpg?height=400&width=300",
-  },
-  {
-    id: 9,
-    name: "HABIMANA David",
-    position: "Trade Specialist",
-    image: "/images/member9.jpg?height=400&width=300",
-  },
-  {
-    id: 10,
-    name: "UWIZEYE Sarah",
-    position: "Marketing Consultant",
-    image: "/images/member10.jpg?height=400&width=300",
-  },
+ 
 ];
 
 export default function AboutSection() {
@@ -242,13 +219,13 @@ export default function AboutSection() {
               onMouseLeave={() => autoplayRef.current.play()}
             >
               <CarouselContent className="-ml-2 md:-ml-4">
-                {teamMembers.map((member, index) => (
+                {teamworkers.map((worker, index) => (
                   <CarouselItem
-                    key={member.id}
+                    key={worker.id}
                     className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3"
                   >
                     <Card
-                      key={`card-${member.id}-${animationKey}`}
+                      key={`card-${worker.id}-${animationKey}`}
                       className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-800 ${
                         isVisible
                           ? "animate-fadeInUp"
@@ -265,17 +242,17 @@ export default function AboutSection() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                         <div className="absolute inset-0 bg-[#F17105]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                         <img
-                          src={member.image || "/placeholder.svg"}
-                          alt={member.name}
+                          src={worker.image || "/placeholder.svg"}
+                          alt={worker.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       </div>
                       <CardContent className="p-3">
                         <h3 className="text-[12px] font-semibold text-gray-800 group-hover:text-[#F17105] transition-colors">
-                          {member.name}
+                          {worker.name}
                         </h3>
                         <p className="text-[10px] text-gray-600 mb-3">
-                          {member.position}
+                          {worker.position}
                         </p>
                         <div className="flex justify-end">
                           <div className="bg-[#F17105] text-white w-6 h-6 flex items-center justify-center rounded-full hover:bg-[#F17105]/80 hover:scale-110 transition-all duration-300 cursor-pointer text-xs shadow-lg">

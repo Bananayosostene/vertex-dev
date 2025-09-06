@@ -80,7 +80,7 @@ export default function Header() {
           </div>
         </div>
         <nav
-          className={`top-0 left-0 right-0 z-40 transition-all duration-500 animate-slideDown px-[2rem] ${
+          className={`top-0 left-0 right-0 z-40 transition-all duration-100 animate-slideDown px-[2rem] ${
             scrolled ? "bg-[#000000] fixed" : "bg-transparent"
           }`}
         >
@@ -109,7 +109,7 @@ export default function Header() {
                   <Link
                     href="/dashboard"
                     className="text-white hover:text-[#F17105] text-[16px] transition-colors animate-fadeInUp"
-                    style={{ animationDelay: `1000ms` }}
+                    style={{ animationDelay: `200ms` }}
                   >
                     Dashboard
                   </Link>
@@ -120,13 +120,13 @@ export default function Header() {
                   {isAdminLoggedIn ? (
                     <Button
                       onClick={handleLogout}
-                      className="hidden lg:flex bg-transparent border-gray-400 rounded-[20px] text-white text-sm py-1 px-4 bg-[#F17105] hover:bg-[#F17105]/50 hover:scale-105 transition-all duration-300 h-auto min-h-0 items-center"
+                      className="hidden lg:flex bg-transparent border-gray-400 rounded-[20px] text-white text-sm py-1 px-4 bg-[#F17105] hover:bg-[#F17105]/50 hover:scale-105 transition-all duration-100 h-auto min-h-0 items-center"
                     >
                       <LogOut className="w-4 h-4 mr-2" /> Logout
                     </Button>
                   ) : (
                     <Link href={"/login"}>
-                      <Button className="hidden lg:block bg-transparent border-gray-400 rounded-[20px] text-white text-sm py-1 px-4 bg-[#F17105] hover:bg-[#F17105]/50 hover:scale-105 transition-all duration-300 h-auto min-h-0">
+                      <Button className="hidden lg:block bg-transparent border-gray-400 rounded-[20px] text-white text-sm py-1 px-4 bg-[#F17105] hover:bg-[#F17105]/50 hover:scale-105 transition-all duration-100 h-auto min-h-0">
                         Login
                       </Button>
                     </Link>
@@ -137,7 +137,7 @@ export default function Header() {
                     onClick={() => setIsSideDrawerOpen(true)}
                     className="hidden lg:block"
                   >
-                    <AlignRight className="w-10 h-5 text-white cursor-pointer hover:text-[#F17105] hover:scale-110 transition-all duration-300" />
+                    <AlignRight className="w-10 h-5 text-white cursor-pointer hover:text-[#F17105] hover:scale-110 transition-all duration-100" />
                   </button>
                   <button
                     className="lg:hidden text-white"
@@ -170,7 +170,7 @@ export default function Header() {
                     <Link
                       href="/dashboard"
                       className="text-white hover:text-[#F17105] transition-colors text-[16px] font-medium animate-fadeInLeft"
-                      style={{ animationDelay: `400ms` }}
+                      style={{ animationDelay: `200ms` }}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Dashboard

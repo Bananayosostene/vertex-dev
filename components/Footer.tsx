@@ -68,7 +68,7 @@ export default function Footer() {
     <footer
       ref={footerRef}
       className="relative bg-cover bg-center bg-no-repeat text-white px-[3rem] sm:px-[3rem] md:px-[3rem] lg:px-[4rem]"
-      style={{ backgroundImage: "url(/images/footer-bg.png)" }}
+      style={{ backgroundImage: "url(/images/footer-bg.jpg)" }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80"></div>
       <div className="absolute inset-0 bg-[#F17105]/5"></div>
@@ -78,7 +78,7 @@ export default function Footer() {
             {/* Company Info */}
             <div
               key={`company-${animationKey}`}
-              className={`lg:col-span-2 transition-all duration-1000 ${
+              className={`lg:col-span-2 transition-all duration-100 ${
                 isVisible
                   ? "animate-fadeInLeft"
                   : "opacity-0 translate-x-[-50px]"
@@ -87,19 +87,19 @@ export default function Footer() {
               <Link
                 href="/"
                 key={`logo-${animationKey}`}
-                className={`flex items-center space-x-2 mb-4 transition-all duration-800 ${
+                className={`flex items-center space-x-2 mb-4 transition-all duration-100 ${
                   isVisible
                     ? "animate-fadeInUp animation-delay-200"
                     : "opacity-0 translate-y-[30px]"
                 }`}
               >
-                <span className="text-xl font-bold hover:text-[#F17105] transition-colors duration-300">
+                <span className="text-xl font-bold hover:text-[#F17105] transition-colors duration-100">
                   VERTEX CONSULTING
                 </span>
               </Link>
               <p
                 key={`company-desc-${animationKey}`}
-                className={`text-gray-300 mb-4 leading-relaxed text-sm transition-all duration-800 ${
+                className={`text-gray-300 mb-4 leading-relaxed text-sm transition-all duration-100 ${
                   isVisible
                     ? "animate-fadeInUp animation-delay-400"
                     : "opacity-0 translate-y-[30px]"
@@ -112,7 +112,7 @@ export default function Footer() {
               </p>
               <div
                 key={`social-${animationKey}`}
-                className={`flex space-x-3 transition-all duration-800 ${
+                className={`flex space-x-3 transition-all duration-100 ${
                   isVisible
                     ? "animate-fadeInUp animation-delay-600"
                     : "opacity-0 translate-y-[30px]"
@@ -124,14 +124,14 @@ export default function Footer() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-[#F17105] transition-all duration-300"
+                    className="hover:text-[#F17105] transition-all duration-100"
                   >
                     <Icon
                       className="w-4 h-4 cursor-pointer hover:scale-125 hover:-translate-y-1 transition-transform"
                       style={{
-                        animationDelay: `${700 + index * 100}ms`,
+                        animationDelay: `${200 + index * 50}ms`,
                         transitionDelay: isVisible
-                          ? `${700 + index * 100}ms`
+                          ? `${200 + index * 50}ms`
                           : "0ms",
                       }}
                     />
@@ -142,7 +142,7 @@ export default function Footer() {
             {/* Our Services */}
             <div
               key={`services-${animationKey}`}
-              className={`lg:col-span-3 transition-all duration-1000 ${
+              className={`lg:col-span-3 transition-all duration-100 ${
                 isVisible
                   ? "animate-fadeInUp animation-delay-400"
                   : "opacity-0 translate-y-[50px]"
@@ -150,7 +150,7 @@ export default function Footer() {
             >
               <h3
                 key={`services-title-${animationKey}`}
-                className={`text-lg font-semibold mb-4 text-center lg:text-left transition-all duration-800 ${
+                className={`text-lg font-semibold mb-4 text-center lg:text-left transition-all duration-100 ${
                   isVisible
                     ? "animate-fadeInUp animation-delay-600"
                     : "opacity-0 translate-y-[30px]"
@@ -163,7 +163,7 @@ export default function Footer() {
                   {services.slice(0, 6).map((service, index) => (
                     <div
                       key={`service-left-${index}-${animationKey}`}
-                      className={`group transition-all duration-800 ${
+                      className={`group transition-all duration-100 ${
                         isVisible
                           ? "animate-fadeInLeft"
                           : "opacity-0 translate-x-[-30px]"
@@ -175,8 +175,8 @@ export default function Footer() {
                           : "0ms",
                       }}
                     >
-                      <span className="text-gray-300 hover:text-[#F17105] transition-all duration-300 cursor-pointer block text-sm hover:translate-x-2 hover:font-medium relative">
-                        <span className="absolute left-0 w-0 h-0.5 bg-[#F17105] bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                      <span className="text-gray-300 hover:text-[#F17105] transition-all duration-100 cursor-pointer block text-sm hover:translate-x-2 hover:font-medium relative">
+                        <span className="absolute left-0 w-0 h-0.5 bg-[#F17105] bottom-0 transition-all duration-100 group-hover:w-full"></span>
                         {service}
                       </span>
                     </div>
@@ -186,7 +186,7 @@ export default function Footer() {
                   {services.slice(6).map((service, index) => (
                     <div
                       key={`service-right-${index}-${animationKey}`}
-                      className={`group transition-all duration-800 ${
+                      className={`group transition-all duration-100 ${
                         isVisible
                           ? "animate-fadeInRight"
                           : "opacity-0 translate-x-[30px]"
@@ -198,8 +198,8 @@ export default function Footer() {
                           : "0ms",
                       }}
                     >
-                      <span className="text-gray-300 hover:text-[#F17105] transition-all duration-300 cursor-pointer block text-sm hover:translate-x-2 hover:font-medium relative">
-                        <span className="absolute left-0 w-0 h-0.5 bg-[#F17105] bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                      <span className="text-gray-300 hover:text-[#F17105] transition-all duration-100 cursor-pointer block text-sm hover:translate-x-2 hover:font-medium relative">
+                        <span className="absolute left-0 w-0 h-0.5 bg-[#F17105] bottom-0 transition-all duration-100 group-hover:w-full"></span>
                         {service}
                       </span>
                     </div>
@@ -210,7 +210,7 @@ export default function Footer() {
             {/* Contact Info */}
             <div
               key={`contact-info-${animationKey}`}
-              className={`lg:col-span-1 transition-all duration-1000 ${
+              className={`lg:col-span-1 transition-all duration-100 ${
                 isVisible
                   ? "animate-fadeInRight animation-delay-800"
                   : "opacity-0 translate-x-[50px]"
@@ -232,7 +232,7 @@ export default function Footer() {
                 ].map((item, index) => (
                   <div
                     key={`contact-${index}-${animationKey}`}
-                    className={`hover:transform hover:scale-105 transition-all duration-800 ${
+                    className={`hover:transform hover:scale-105 transition-all duration-100 ${
                       isVisible
                         ? "animate-fadeInUp"
                         : "opacity-0 translate-y-[30px]"
@@ -257,7 +257,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div
           key={`bottom-bar-${animationKey}`}
-          className={`border-t border-[#F17105]/30 transition-all duration-1000 ${
+          className={`border-t border-[#F17105]/30 transition-all duration-100 ${
             isVisible
               ? "animate-fadeInUp animation-delay-1600"
               : "opacity-0 translate-y-[30px]"

@@ -80,13 +80,13 @@ export default function ContactSection() {
       <div className="max-w-7xl mx-auto">
         <div
           key={`header-${animationKey}`}
-          className={`mb-12 transition-all duration-1000 ${
+          className={`mb-12 transition-all duration-100 ${
             isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-[30px]"
           }`}
         >
           <h2
             key={`title-${animationKey}`}
-            className={`text-[14px] lg:text-[16px] font-bold text-gray-800 mb-4 transition-all duration-800 ${
+            className={`text-[14px] lg:text-[16px] font-bold text-gray-800 mb-4 transition-all duration-100 ${
               isVisible
                 ? "animate-fadeInUp animation-delay-200"
                 : "opacity-0 translate-y-[30px]"
@@ -96,7 +96,7 @@ export default function ContactSection() {
           </h2>
           <p
             key={`description-${animationKey}`}
-            className={`text-gray-600 text-[14px] max-w-3xl transition-all duration-800 ${
+            className={`text-gray-600 text-[14px] max-w-3xl transition-all duration-100 ${
               isVisible
                 ? "animate-fadeInUp animation-delay-400"
                 : "opacity-0 translate-y-[30px]"
@@ -112,18 +112,18 @@ export default function ContactSection() {
           {/* Left */}
           <div
             key={`left-panel-${animationKey}`}
-            className={`flex w-full bg-[#E1EBE2] lg:w-1/2 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-1000 ${
+            className={`flex w-full bg-[#E1EBE2] lg:w-1/2 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-100 ${
               isVisible
                 ? "animate-fadeInLeft animation-delay-600"
                 : "opacity-0 translate-x-[-50px]"
             }`}
           >
             <div className="relative h-[350px] w-1/2 overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#F17105]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#F17105]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-100 z-10"></div>
               <img
                 src="/images/call-center.jpg?height=400&width=400"
                 alt="Contact professional"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-100"
               />
             </div>
             <div className="lg:col-span-3 p-4 space-y-10">
@@ -150,7 +150,7 @@ export default function ContactSection() {
               ].map((item, index) => (
                 <div
                   key={`contact-item-${index}-${animationKey}`}
-                  className={`transition-all duration-800 hover:transform hover:scale-105 ${
+                  className={`transition-all duration-100 hover:transform hover:scale-105 ${
                     isVisible
                       ? "animate-fadeInUp"
                       : "opacity-0 translate-y-[30px]"
@@ -161,7 +161,7 @@ export default function ContactSection() {
                   }}
                 >
                   <div className="flex items-start space-x-3">
-                    <div className="bg-[#F17105]/20 p-2 rounded-full hover:bg-[#F17105]/30 transition-colors duration-300 hover:scale-110 transform">
+                    <div className="bg-[#F17105]/20 p-2 rounded-full hover:bg-[#F17105]/30 transition-colors duration-100 hover:scale-110 transform">
                       <item.icon className="w-4 h-4 text-[#F17105]" />
                     </div>
                     <div>
@@ -180,13 +180,13 @@ export default function ContactSection() {
           {/* Right Contact Form */}
           <div
             key={`form-panel-${animationKey}`}
-            className={`w-full lg:w-1/2 transition-all duration-1000 ${
+            className={`w-full lg:w-1/2 transition-all duration-100 ${
               isVisible
                 ? "animate-fadeInRight animation-delay-800"
                 : "opacity-0 translate-x-[50px]"
             }`}
           >
-            <div className="h-[350px] bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="h-[350px] bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-100">
               <form ref={formRef} action={formAction} className="space-y-4">
                 {[
                   {
@@ -213,7 +213,7 @@ export default function ContactSection() {
                 ].map((field) => (
                   <div
                     key={`field-${field.name}-${animationKey}`}
-                    className={`transition-all duration-800 ${
+                    className={`transition-all duration-100 ${
                       isVisible
                         ? "animate-fadeInUp"
                         : "opacity-0 translate-y-[30px]"
@@ -229,7 +229,7 @@ export default function ContactSection() {
                       placeholder={field.placeholder}
                       required={field.required}
                       disabled={isPending}
-                      className="w-full h-10 px-4 border text-[12px] placeholder:text-[12px] border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent hover:border-[#F17105]/50 transition-all duration-300 disabled:opacity-50"
+                      className="w-full h-10 px-4 border text-[12px] placeholder:text-[12px] border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent hover:border-[#F17105]/50 transition-all duration-100 disabled:opacity-50"
                     />
                     {state.errors?.[
                       field.name as keyof typeof state.errors
@@ -246,7 +246,7 @@ export default function ContactSection() {
                 ))}
                 <div
                   key={`textarea-${animationKey}`}
-                  className={`transition-all duration-800 ${
+                  className={`transition-all duration-100 ${
                     isVisible
                       ? "animate-fadeInUp animation-delay-1300"
                       : "opacity-0 translate-y-[30px]"
@@ -258,7 +258,7 @@ export default function ContactSection() {
                     required
                     rows={3}
                     disabled={isPending}
-                    className="w-full px-4 py-2 text-[12px] placeholder:text-[12px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent resize-none hover:border-[#F17105]/50 transition-all duration-300 disabled:opacity-50"
+                    className="w-full px-4 py-2 text-[12px] placeholder:text-[12px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F17105] focus:border-transparent resize-none hover:border-[#F17105]/50 transition-all duration-100 disabled:opacity-50"
                   />
                   {state.errors?.message && (
                     <p className="text-red-500 text-sm mt-1">
@@ -285,7 +285,7 @@ export default function ContactSection() {
                 )}
                 <div
                   key={`button-${animationKey}`}
-                  className={`transition-all duration-800 ${
+                  className={`transition-all duration-100 ${
                     isVisible
                       ? "animate-fadeInUp animation-delay-1400"
                       : "opacity-0 translate-y-[30px]"
@@ -294,7 +294,7 @@ export default function ContactSection() {
                   <Button
                     type="submit"
                     disabled={isPending}
-                    className="w-[6rem] bg-[#F17105] hover:bg-[#F17105]/90 text-white text-[12px] font-semibold rounded-[5px] hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="w-[6rem] bg-[#F17105] hover:bg-[#F17105]/90 text-white text-[12px] font-semibold rounded-[5px] hover:scale-105 transition-all duration-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {isPending ? (
                       <div className="flex items-center space-x-2">
